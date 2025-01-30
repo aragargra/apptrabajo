@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apptrabajo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apptrabajo
+  template:
+    metadata:
+      labels:
+        app: apptrabajo
+    spec:
+      containers:
+      - name: apptrabajo
+        image: araceli96/apptrabajo:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apptrabajo-service
+spec:
+  selector:
+    app: apptrabajo  # Asegúrate de que este selector coincida con las etiquetas de tu pod
+  ports:
+    - protocol: TCP
+      port: 8080  # Puerto del servicio (esto será el puerto en el que se expondrá el servicio)
+      targetPort: 8080  # Puerto al que se conecta dentro del contenedor
+      nodePort: 30002  # Puerto NodePort específico
+  type: NodePort  # Tipo NodePort para exponer el servicio

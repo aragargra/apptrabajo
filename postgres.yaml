@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres-pod
+  labels:
+    app: postgres
+spec:
+  containers:
+  - name: postgres
+    image: postgres:13
+    ports:
+    - containerPort: 5432
+    env:
+    - name: POSTGRES_DB #nombre de la base de datos
+      value: dit
+    - name: POSTGRES_USER #usuario de la base de datos
+      value: dit
+    - name: POSTGRES_PASSWORD #password de la base de datos
+      value: dit
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
